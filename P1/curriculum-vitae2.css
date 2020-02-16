@@ -1,0 +1,21 @@
+body{
+  background: url("secret.png")
+  fixed no-repeat 330px 20px,
+  url(cia_2.jpg);
+}
+
+h1{
+  color: yellow;
+}
+h2{
+  color: yellow;
+}
+
+
+li{
+  background-color: lightblue;
+  padding: 10px;
+  border: solid;
+  border-color: yellow;
+  margin: 20px;
+}
