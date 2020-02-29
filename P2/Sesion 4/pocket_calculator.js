@@ -1,86 +1,103 @@
 console.log("Ejecutando JS...");
-//-- Para el 0
-const test_0 = document.getElementById('numero_0');
-test_0.onclick = () => {
-console.log("0");
+
+
+display = document.getElementById("display")
+boton0= document.getElementById("boton0")
+boton1 = document.getElementById("boton1")
+boton2 = document.getElementById("boton2")
+boton3 = document.getElementById("boton3")
+boton4 = document.getElementById("boton4")
+boton5 = document.getElementById("boton5")
+boton6 = document.getElementById("boton6")
+boton7 = document.getElementById("boton7")
+boton8 = document.getElementById("boton8")
+boton9 = document.getElementById("boton9")
+coma = document.getElementById("coma")
+sumar = document.getElementById("sumar")
+restar= document.getElementById("restar")
+multiplicar = document.getElementById("multiplicar")
+dividir = document.getElementById("dividir")
+porcentaje= document.getElementById("porcentaje")
+reset= document.getElementById("reset")
+clear= document.getElementById("clear")
+igual= document.getElementById("igual")
+
+// -- Insertar dígitos
+boton0.onclick = (ev) => {
+  display.innerHTML += ev.target.value;
 }
-//-- Para el 1
-const test_1 = document.getElementById('numero_1');
-test_1.onclick = () => {
-console.log("1");
+
+boton1.onclick = (ev) => {
+  display.innerHTML += ev.target.value;
 }
-//-- Para el 2
-const test_2 = document.getElementById('numero_2');
-test_2.onclick = () => {
-console.log("2");
+
+boton2.onclick = (ev) => {
+  display.innerHTML += ev.target.value;
 }
-//-- Para el 3
-const test_3 = document.getElementById('numero_3');
-test_3.onclick = () => {
-console.log("3");
+
+boton3.onclick = (ev) => {
+  display.innerHTML += ev.target.value;
 }
-//-- Para el 4
-const test_4 = document.getElementById('numero_4');
-test_4.onclick = () => {
-console.log("4");
+
+boton4.onclick = (ev) => {
+display.innerHTML += ev.target.value;
 }
-//-- Para el 5
-const test_5 = document.getElementById('numero_5');
-test_5.onclick = () => {
-console.log("5");
+
+boton5.onclick = (ev) => {
+  display.innerHTML += ev.target.value;
 }
-//-- Para el 6
-const test_6 = document.getElementById('numero_6');
-test_6.onclick = () => {
-console.log("6");
+
+boton6.onclick = (ev) => {
+  display.innerHTML += ev.target.value;
 }
-//-- Para el 7
-const test_7 = document.getElementById('numero_7');
-test_7.onclick = () => {
-console.log("7");
+
+boton7.onclick = (ev) => {
+  display.innerHTML += ev.target.value;
 }
-//-- Para el 8
-const test_8 = document.getElementById('numero_8');
-test_8.onclick = () => {
-console.log("8");
+
+boton8.onclick = (ev) => {
+  display.innerHTML += ev.target.value;
 }
-//-- Para el 9
-const test_9 = document.getElementById('numero_9');
-test_9.onclick = () => {
-console.log("9");
+
+boton9.onclick = (ev) => {
+  display.innerHTML += ev.target.value;
 }
-//-- Para la adicción
-const test_sumar = document.getElementById('numero_+');
-test_sumar.onclick = () => {
-console.log("+");
+
+sumar.onclick = (ev) => {
+  display.innerHTML += ev.target.value;
 }
-//-- Para la diferencia
-const test_restar= document.getElementById('numero_-');
-test_restar.onclick = () => {
-console.log("-");
+
+restar.onclick = (ev) => {
+  display.innerHTML += ev.target.value;;
 }
-//-- Para el producto
-const test_multiplicar = document.getElementById('numero_*');
-test_multiplicar .onclick = () => {
-console.log("*");
+
+multiplicar.onclick = (ev) => {
+  display.innerHTML += ev.target.value;
 }
-//-- Para el cociente
-const test_dividir = document.getElementById('numero_/');
-test_dividir.onclick = () => {
-console.log("/");
+
+dividir.onclick = (ev) => {
+  display.innerHTML += ev.target.value;
 }
-//-- Para el igual
-const test_igual= document.getElementById('numero_=');
-test_igual.onclick = () => {
-console.log("=");
+
+coma.onclick = (ev) => {
+  display.innerHTML += ev.target.value;
 }
-//-- Para el tanto por ciento
-const test_porcentaje= document.getElementById('numero_%');
-test_porcentaje.onclick = () => {
-console.log("%");
+
+
+porcentaje.onclick = (ev) => {
+  display.innerHTML += ev.target.value;
 }
-//-- Para el tanto por reset
-const test_reset= document.getElementById('numero_AC');
-test_reset.onclick = () => {
-console.log("AC");
+
+reset.onclick = () => {
+  display.innerHTML = "0";
+}
+
+clear.onclick = (ev) => {
+  display.innerHTML = ev.target.value;;
+}
+
+// -- Evaluar la expresión
+
+igual.onclick = () => {
+  display.innerHTML = eval(display.innerHTML);
 }
