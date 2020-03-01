@@ -1,103 +1,84 @@
 console.log("Ejecutando JS...");
 
+//-- Crear un array con todos los elementos
+//-- de la clase digito
+digito = document.getElementsByClassName("digito")
 
-display = document.getElementById("display")
-boton0= document.getElementById("boton0")
-boton1 = document.getElementById("boton1")
-boton2 = document.getElementById("boton2")
-boton3 = document.getElementById("boton3")
-boton4 = document.getElementById("boton4")
-boton5 = document.getElementById("boton5")
-boton6 = document.getElementById("boton6")
-boton7 = document.getElementById("boton7")
-boton8 = document.getElementById("boton8")
-boton9 = document.getElementById("boton9")
-coma = document.getElementById("coma")
-sumar = document.getElementById("sumar")
-restar= document.getElementById("restar")
-multiplicar = document.getElementById("multiplicar")
-dividir = document.getElementById("dividir")
-porcentaje= document.getElementById("porcentaje")
-reset= document.getElementById("reset")
-clear= document.getElementById("clear")
-igual= document.getElementById("igual")
-
-// -- Insertar dígitos
-boton0.onclick = (ev) => {
-  display.innerHTML += ev.target.value;
+for (i=0; i<digito.length; i++) {
+  digito[i].onclick = (ev) => {
+    display.innerHTML += ev.target.value;
+  }
 }
 
-boton1.onclick = (ev) => {
-  display.innerHTML += ev.target.value;
+//-- Crear un array con todos los elementos
+//-- de la clase operacion
+operacion = document.getElementsByClassName("operacion")
+
+for (i=0; i<operacion.length; i++) {
+  operacion[i].onclick = (ev) => {
+    display.innerHTML += ev.target.value;
+  }
 }
 
-boton2.onclick = (ev) => {
-  display.innerHTML += ev.target.value;
+//-- Crear un array con todos los elementos
+//-- de la clase f_auxiliar
+f_auxiliar = document.getElementsByClassName("f_auxiliar")
+
+for (i=0; i<f_auxiliar.length; i++) {
+  f_auxiliar[i].onclick = (ev) => {
+    display.innerHTML += ev.target.value;
+  }
 }
 
-boton3.onclick = (ev) => {
-  display.innerHTML += ev.target.value;
+//-- Estados de la calculadora
+const ESTADO = {
+  INIT: 0,
+  OP1: 1,
+  OPERATION: 2,
+  OP2_INIT: 3,
+  OP2: 4,
+}
+//-- Ha llegado un dígito
+function number(num)
+{
+  //-- Segun el estado hacemos una cosa u otra
+  if (estado == ESTADO.INIT) {
+    display.innerHTML = num;
+    estado = ESTADO.OP1;
+  }
 }
 
-boton4.onclick = (ev) => {
-display.innerHTML += ev.target.value;
+function operation(oper)
+{
+  //-- Segun el estado hacemos una cosa u otra
+  if (estado == ESTADO.OP1) {
+    display.innerHTML = oper;
+    oper = ESTADO.OPERATION;
+  }
 }
 
-boton5.onclick = (ev) => {
-  display.innerHTML += ev.target.value;
+function op2_init(num)
+{
+  //-- Segun el estado hacemos una cosa u otra
+  if (estado == ESTADO.OPERATION) {
+    display.innerHTML = num;
+    oper = ESTADO.OP2_INIT;
+
+  }
 }
-
-boton6.onclick = (ev) => {
-  display.innerHTML += ev.target.value;
-}
-
-boton7.onclick = (ev) => {
-  display.innerHTML += ev.target.value;
-}
-
-boton8.onclick = (ev) => {
-  display.innerHTML += ev.target.value;
-}
-
-boton9.onclick = (ev) => {
-  display.innerHTML += ev.target.value;
-}
-
-sumar.onclick = (ev) => {
-  display.innerHTML += ev.target.value;
-}
-
-restar.onclick = (ev) => {
-  display.innerHTML += ev.target.value;;
-}
-
-multiplicar.onclick = (ev) => {
-  display.innerHTML += ev.target.value;
-}
-
-dividir.onclick = (ev) => {
-  display.innerHTML += ev.target.value;
-}
-
-coma.onclick = (ev) => {
-  display.innerHTML += ev.target.value;
-}
-
-
-porcentaje.onclick = (ev) => {
-  display.innerHTML += ev.target.value;
+function number2(num)
+{
+  //-- Segun el estado hacemos una cosa u otra
+  if (estado == ESTADO.OP2_INIT) {
+    display.innerHTML = num;
+    oper = ESTADO.OP2;
+  }
 }
 
 reset.onclick = () => {
-  display.innerHTML = "0";
+  display.innerHTML = "";
 }
-
-clear.onclick = (ev) => {
-  display.innerHTML = ev.target.value;;
-}
-
-// -- Evaluar la expresión
 
 igual.onclick = () => {
-  display.innerHTML = eval(display.innerHTML);
+display.innerHTML = eval(display.innerHTML);
 }
