@@ -68,6 +68,11 @@ coma.onclick = (ev) => {
   display.innerHTML += ev.target.value;
 }
 
+
+igual.onclick = () => {
+display.innerHTML = eval(display.innerHTML);
+}
+
 display = document.getElementById("display")
 boton0= document.getElementById("boton0")
 boton1 = document.getElementById("boton1")

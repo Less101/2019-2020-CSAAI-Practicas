@@ -45,6 +45,12 @@ function number(num)
   if (estado == ESTADO.INIT) {
     display.innerHTML = num;
     estado = ESTADO.OP1;
+  }else if (estado == ESTADO.OPERATION) {
+    display.innerHTML = num;
+    estado = ESTADO.OP2_INIT;
+  }else{
+    display.innerHTML = num;
+    estado = ESTADO.OP2;
   }
 }
 
@@ -57,28 +63,16 @@ function operation(oper)
   }
 }
 
-function op2_init(num)
-{
-  //-- Segun el estado hacemos una cosa u otra
-  if (estado == ESTADO.OPERATION) {
-    display.innerHTML = num;
-    oper = ESTADO.OP2_INIT;
-
-  }
-}
-function number2(num)
-{
-  //-- Segun el estado hacemos una cosa u otra
-  if (estado == ESTADO.OP2_INIT) {
-    display.innerHTML = num;
-    oper = ESTADO.OP2;
-  }
+ function resultado(num)
+ {
+   if (estado == ESTADO.OP2) {
+     igual.onclick = () => {
+     display.innerHTML = eval(display.innerHTML);
+     estado = ESTADO.INIT;
+     }
+   }
 }
 
 reset.onclick = () => {
   display.innerHTML = "";
-}
-
-igual.onclick = () => {
-display.innerHTML = eval(display.innerHTML);
 }
