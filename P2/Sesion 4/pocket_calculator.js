@@ -20,18 +20,8 @@ for (i=0; i<operacion.length; i++) {
   }
 }
 
-//-- Crear un array con todos los elementos
-//-- de la clase f_auxiliar
-f_auxiliar = document.getElementsByClassName("f_auxiliar")
-
-for (i=0; i<f_auxiliar.length; i++) {
-  f_auxiliar[i].onclick = (ev) => {
-    display.innerHTML += ev.target.value;
-  }
-}
-
 //-- Estados de la calculadora
-const ESTADO = {
+  const ESTADO = {
   INIT: 0,
   OP1: 1,
   OPERATION: 2,
@@ -39,40 +29,52 @@ const ESTADO = {
   OP2: 4,
 }
 //-- Ha llegado un dígito
-function number(num)
+function number(digito)
 {
   //-- Segun el estado hacemos una cosa u otra
   if (estado == ESTADO.INIT) {
-    display.innerHTML = num;
+    display.innerHTML = digito;
     estado = ESTADO.OP1;
   }else if (estado == ESTADO.OPERATION) {
-    display.innerHTML = num;
+    display.innerHTML = digito;
     estado = ESTADO.OP2_INIT;
-  }else{
-    display.innerHTML = num;
+  }else if (estado == ESTADO.OP2_INIT) {
+    display.innerHTML = digito;
     estado = ESTADO.OP2;
+  }else{
+    estado= ESTADO.INIT;
+    console.log("Fuck you!!!");
   }
 }
 
-function operation(oper)
+function operation(operacion)
 {
   //-- Segun el estado hacemos una cosa u otra
   if (estado == ESTADO.OP1) {
-    display.innerHTML = oper;
-    oper = ESTADO.OPERATION;
+    display.innerHTML = operacion;
+    estado = ESTADO.OPERATION;
+  }else {
+    estado= ESTADO.INIT;
   }
 }
 
- function resultado(num)
+ function resultado(igual)
  {
-   if (estado == ESTADO.OP2) {
-     igual.onclick = () => {
-     display.innerHTML = eval(display.innerHTML);
-     estado = ESTADO.INIT;
+   if (estado == ESTADO.OP2_INIT || estado == ESTADO.OP2) {
+     display.innerHTML = igual;
+      estado = ESTADO.INIT;
      }
-   }
 }
 
+igual.onclick = () => {
+  display.innerHTML = eval(display.innerHTML);
+  estado = ESTADO.INIT;
+}
 reset.onclick = () => {
   display.innerHTML = "";
+  estado = ESTADO.INIT;
+}
+
+clear.onclick = () => {
+
 }
