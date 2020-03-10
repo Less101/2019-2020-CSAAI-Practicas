@@ -6,7 +6,7 @@ digito = document.getElementsByClassName("digito")
 
 for (i=0; i<digito.length; i++) {
   digito[i].onclick = (ev) => {
-    display.innerHTML += ev.target.value;
+    number(ev.target.value);
   }
 }
 
@@ -16,7 +16,7 @@ operacion = document.getElementsByClassName("operacion")
 
 for (i=0; i<operacion.length; i++) {
   operacion[i].onclick = (ev) => {
-    display.innerHTML += ev.target.value;
+    operation(ev.target.value);
   }
 }
 
@@ -28,6 +28,11 @@ for (i=0; i<operacion.length; i++) {
   OP2_INIT: 3,
   OP2: 4,
 }
+estado = ESTADO.INIT
+var state = [];
+state.push(estado);
+
+
 //-- Ha llegado un dígito
 function number(digito)
 {
@@ -35,15 +40,21 @@ function number(digito)
   if (estado == ESTADO.INIT) {
     display.innerHTML = digito;
     estado = ESTADO.OP1;
+    state.push(estado);
+  }else if (estado == ESTADO.OP1) {
+    display.innerHTML += digito;
+    state.push(ESTADO.OPERATION);
   }else if (estado == ESTADO.OPERATION) {
-    display.innerHTML = digito;
+    display.innerHTML += digito;
     estado = ESTADO.OP2_INIT;
-  }else if (estado == ESTADO.OP2_INIT) {
-    display.innerHTML = digito;
-    estado = ESTADO.OP2;
-  }else{
-    estado= ESTADO.INIT;
-    console.log("Fuck you!!!");
+    state.push(estado);
+  }else if(estado == ESTADO.OP2_INIT){
+    display.innerHTML += digito;
+    state.push(estado);
+    estado= ESTADO.OP2;
+  } else if (estado == ESTADO.OP2) {
+    display.innerHTML += digito;
+    state.push(estado);
   }
 }
 
@@ -51,24 +62,19 @@ function operation(operacion)
 {
   //-- Segun el estado hacemos una cosa u otra
   if (estado == ESTADO.OP1) {
-    display.innerHTML = operacion;
+    display.innerHTML += operacion;
     estado = ESTADO.OPERATION;
-  }else {
-    estado= ESTADO.INIT;
-  }
-}
-
- function resultado(igual)
- {
-   if (estado == ESTADO.OP2_INIT || estado == ESTADO.OP2) {
-     display.innerHTML = igual;
-      estado = ESTADO.INIT;
-     }
+    state.push(estado);
+ }
 }
 
 igual.onclick = () => {
-  display.innerHTML = eval(display.innerHTML);
-  estado = ESTADO.INIT;
+  if (estado == ESTADO.OP2_INIT || estado == ESTADO.OP2) {
+     display.innerHTML = eval(display.innerHTML);
+     estado = ESTADO.OP1;
+     state = [];
+     state.push(estado);
+    }
 }
 reset.onclick = () => {
   display.innerHTML = "";
@@ -76,5 +82,8 @@ reset.onclick = () => {
 }
 
 clear.onclick = () => {
-
+  estado = state[state.length-2];
+  state.pop();
+  display.innerHTML = display.innerHTML.substring(0, display.innerHTML.length - 1);
+  state.push(estado);
 }

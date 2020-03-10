@@ -12,20 +12,20 @@ h1 {
   margin: 15px;
 }
 div {
-  width: 300px;
+  width: 55%;
+  background: url("k.jpg");
   background-color: green;
   padding: 10px;
 /*  margin: 10;*/
 }
 button{
-  background-color: grey;
+  background-color: red;
   border: none;
-  color: white;
+  color: yellow;
   padding: 10px;
   text-align: center;
   display: inline-block;
   font-size: 16px;
   margin: 5px 2px;
   cursor: pointer;
-  boton1: blue;
  }
