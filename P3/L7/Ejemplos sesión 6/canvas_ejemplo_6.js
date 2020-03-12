@@ -1,0 +1,25 @@
+console.log("Ejecutando JS...");
+
+const canvas = document.getElementById("canvas");
+
+
+//-- Definir el tamaño de canvas
+canvas.width = 200;
+canvas.height = 100;
+
+//-- Definir el contexto del canvas
+const ctx = canvas.getContext("2d");
+
+ctx.beginPath();
+//-- Dibujar un círculo: coordenadas x,y del centro
+//-- Radio, Ángulo inicial y ángulo final
+ctx.arc(100, 50, 10, 0, 2 * Math.PI);
+ctx.strokeStyle = 'blue';
+ctx.lineWidth = 3;
+ctx.fillStyle = 'yellow'
+
+//-- Dibujar el trazo
+ctx.stroke()
+
+//-- Dbujar el relleno
+ctx.fill()

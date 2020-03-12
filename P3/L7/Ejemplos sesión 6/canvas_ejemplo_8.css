@@ -1,0 +1,17 @@
+/* Estilo del canvas
+lo bordeamos con una linea negra y le damos fondo
+azul para distingirlo
+*/
+canvas {
+  background-color: lightblue;
+  border-style: solid;
+  border-width: 1px;
+  border-color: black;
+}
+
+/* imagen deshabilitada
+se usa para leerla desde .js y
+meterla en el canvas */
+#kraftwerk {
+  display: none;
+}
