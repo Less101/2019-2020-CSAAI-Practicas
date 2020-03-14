@@ -12,23 +12,39 @@ const ctx = canvas.getContext("2d");
 
 //----- Dibujar la Bola
 ctx.beginPath();
-ctx.fillStyle='white';
+ctx.fillStyle='yellow';
+
 
 //-- x,y, anchura, altura
 ctx.rect(100, 200, 10, 10);
 ctx.fill();
 
-function main()
-{
-  console.log("Pong: Main: Start!")
+//--- Dibujar las raquetas
+ctx.beginPath();
+ctx.fillStyle='white';
 
-  var canvas = document.getElementById('display')
-  canvas.width = 600;
-  canvas.height = 400;
+//-- Raqueta izquierda
+ctx.rect(50,100, 10, 40)
 
-  var ctx = canvas.getContext("2d");
+//-- Raqueta derecha
+ctx.rect(550, 300, 10, 40);
 
-  //-- Raquetas
-  ctx.fillStyle = 'white';
-  ctx.fillRect(50,100, 10, 40)
-}
+//-- Pintar
+ctx.fill();
+
+
+//--------- Dibujar la red
+ctx.beginPath();
+
+//-- Estilo de la linea: discontinua
+//-- Trazos de 10 pixeles, y 10 de separacion
+ctx.setLineDash([10, 10]);
+ctx.strokeStyle = 'white';
+ctx.lineWidth = 2;
+//-- Punto superior de la linea. Su coordenada x está en la mitad
+//-- del canvas
+ctx.moveTo(canvas.width/2, 0);
+
+//-- Dibujar hasta el punto inferior
+ctx.lineTo(canvas.width/2, canvas.height);
+ctx.stroke();
