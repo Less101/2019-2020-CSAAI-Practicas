@@ -10,6 +10,9 @@ console.log(`canvas: Anchura: ${canvas.width}, Altura: ${canvas.height}`);
 //-- Obtener el contexto para pintar en el canvas
 const ctx = canvas.getContext("2d");
 
+// -- Todo aglutinado en una función
+function draw() {
+
 //----- Dibujar la Bola
 ctx.beginPath();
 ctx.fillStyle='yellow';
@@ -24,10 +27,10 @@ ctx.beginPath();
 ctx.fillStyle='white';
 
 //-- Raqueta izquierda
-ctx.rect(50,100, 10, 40)
+ctx.rect(50,100, 10, 40);
 
 //-- Raqueta derecha
-ctx.rect(550, 300, 10, 40);
+ctx.rect(540, 300, 10, 40);
 
 //-- Pintar
 ctx.fill();
@@ -38,7 +41,7 @@ ctx.beginPath();
 
 //-- Estilo de la linea: discontinua
 //-- Trazos de 10 pixeles, y 10 de separacion
-ctx.setLineDash([10, 10]);
+ctx.setLineDash([10,10]);
 ctx.strokeStyle = 'white';
 ctx.lineWidth = 2;
 //-- Punto superior de la linea. Su coordenada x está en la mitad
@@ -48,3 +51,24 @@ ctx.moveTo(canvas.width/2, 0);
 //-- Dibujar hasta el punto inferior
 ctx.lineTo(canvas.width/2, canvas.height);
 ctx.stroke();
+
+//-- Dibujar el marcador
+ctx.font = "100px Arial";
+ctx.fillStyle = "white";
+// -- qué dibujo, x,y
+ctx.fillText("0", 200, 80);
+ctx.fillText("1", 340, 80);
+}
+
+//--- Bucle principal de la animación
+function animacion()
+{
+  //-- Borrar el canvas
+  ctx.clearRect(0,0, canvas.width, canvas.height);
+
+  //-- Dibujar el nuevo frame
+  draw();
+
+  //-- Mostrar actividad en la consola
+  console.log("Frame!");
+}
