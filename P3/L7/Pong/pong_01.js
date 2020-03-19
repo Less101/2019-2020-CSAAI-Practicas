@@ -10,6 +10,12 @@ console.log(`canvas: Anchura: ${canvas.width}, Altura: ${canvas.height}`);
 //-- Obtener el contexto para pintar en el canvas
 const ctx = canvas.getContext("2d");
 
+//-- Variables para la Bola
+//-- posición de partida x
+//-- valor inicial para la bola vx
+let bola_x = 50;
+let bola_vx = 0;
+
 // -- Todo aglutinado en una función
 function draw() {
 
@@ -19,7 +25,7 @@ ctx.fillStyle='yellow';
 
 
 //-- x,y, anchura, altura
-ctx.rect(100, 200, 10, 10);
+ctx.rect(bola_x, 200, 10, 10);
 ctx.fill();
 
 //--- Dibujar las raquetas
@@ -63,6 +69,14 @@ ctx.fillText("1", 340, 80);
 //--- Bucle principal de la animación
 function animacion()
 {
+
+  //-- Actualizar las posiciones de los objetos móviles
+  //-- Actualizar coordenada x de la bola
+  // valores positivos aumentan la velocidad (izqda- derecha)
+  // valores negativos aumentan la velocidad (derecha- izqda)
+  bola_x += 1;
+
+
   //-- Borrar el canvas
   ctx.clearRect(0,0, canvas.width, canvas.height);
 
@@ -70,5 +84,33 @@ function animacion()
   draw();
 
   //-- Mostrar actividad en la consola
+  //-- así comprobamos que está vivo
   console.log("Frame!");
+}
+
+//-- Arrancar la animacion
+setInterval(()=> {
+  animacion();
+}, 16);
+
+//-- Obtener el boton de dar un "paso"
+const sacar = document.getElementById("sacar");
+const reset = document.getElementById("reset");
+//--const paso_2 = document.getElementById("paso_2");
+
+//-- Boton de saque:
+//-- Dar a la bola una velocidad inicial
+//-- También restablecemos la posición inicial
+sacar.onclick = () => {
+  // Asignación de nueva velocidad de la bola
+
+  bola_vx = 3;
+  console.log("¡Saque!");
+}
+
+reset.onclick = () => {
+  // Asignación de nueva velocidad de la bola
+  bola_x = 50;
+
+  console.log("¡Saque!");
 }
