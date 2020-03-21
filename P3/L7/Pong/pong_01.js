@@ -71,10 +71,18 @@ function animacion()
 {
 
   //-- Actualizar las posiciones de los objetos móviles
-  //-- Actualizar coordenada x de la bola
-  // valores positivos aumentan la velocidad (izqda- derecha)
-  // valores negativos aumentan la velocidad (derecha- izqda)
-  bola_x += 1;
+  //-- Comprobar si la bola ha alcanzado el límite derecho
+  //-- Si es así, se cambia el signo de la velocidad, para
+  //-- que "rebote" y vaya en el sentido opuesto
+  if(bola_x >= canvas.width ) {
+    //-- Hay colisión. Cambiar el signo de la bola
+    bola_vx = bola_vx * -1;
+  }
+  //--valores positivos aumentan la velocidad (izqda- derecha)
+  //-- valores negativos aumentan la velocidad (derecha- izqda)
+  //-- Actualizar coordenada x de la bola, en función
+  //-- de su velocidad
+  bola_x += bola_vx;
 
 
   //-- Borrar el canvas
@@ -85,7 +93,7 @@ function animacion()
 
   //-- Mostrar actividad en la consola
   //-- así comprobamos que está vivo
-  console.log("Frame!");
+  console.log("Alive!");
 }
 
 //-- Arrancar la animacion
@@ -93,24 +101,36 @@ setInterval(()=> {
   animacion();
 }, 16);
 
+//-- Retrollamadas de las teclas
+window.onkeydown = (e) => {
+  switch (e.key) {
+
+    // Tecla ESPACIO: saque
+    case " ":
+    bola_x = 50;
+    bola_vx = 6;
+  }
+
+}
+
 //-- Obtener el boton de dar un "paso"
-const sacar = document.getElementById("sacar");
-const reset = document.getElementById("reset");
+//const sacar = document.getElementById("sacar");
+//const reset = document.getElementById("reset");
 //--const paso_2 = document.getElementById("paso_2");
 
 //-- Boton de saque:
 //-- Dar a la bola una velocidad inicial
 //-- También restablecemos la posición inicial
-sacar.onclick = () => {
+//sacar.onclick = () => {
   // Asignación de nueva velocidad de la bola
 
-  bola_vx = 3;
-  console.log("¡Saque!");
-}
+//  bola_vx = 3;
+//  console.log("¡Saque!");
+//}
 
-reset.onclick = () => {
+//reset.onclick = () => {
   // Asignación de nueva velocidad de la bola
-  bola_x = 50;
+//  bola_x = 50;
 
-  console.log("¡Saque!");
-}
+//  console.log("¡Saque!");
+//}
