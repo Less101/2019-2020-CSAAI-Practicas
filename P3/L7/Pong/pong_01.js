@@ -10,6 +10,12 @@ console.log(`canvas: Anchura: ${canvas.width}, Altura: ${canvas.height}`);
 //-- Obtener el contexto para pintar en el canvas
 const ctx = canvas.getContext("2d");
 
+
+//-- Obtener los sonidos
+const sonido_raqueta = new Audio("pong-raqueta.mp3");
+const sonido_rebote = new Audio("pong-rebote.mp3");
+const sonido_tanto = new Audio("pong-tanto.mp3");
+
 //-- pintar todos los objetos en el canvas
 function draw(){
   // --- Dibujar la bola
@@ -57,18 +63,42 @@ function animacion()
   //-- que "rebote" y vaya en el sentido opuesto
   if(bola.x >= canvas.width ) {
     //-- Hay colisión. Cambiar el signo de la bola
+    //-- colisión en las paredes verticales
     bola.vx = bola.vx * -1;
+    sonido_tanto.currentTime = 0;
+    sonido_tanto.play();
+  }else if (bola.x <= 0.0) {
+    bola.vx = bola.vx * -1;
+    sonido_tanto.currentTime = 0;
+    sonido_tanto.play();
+  }
+  // colisión en las paredes horizontales
+
+  if(bola.y >= canvas.height) {
+    bola.vy = bola.vy * -1;
+    sonido_rebote.currentTime = 0;
+    sonido_rebote.play();
+  }else if (bola.y <= 0.0) {
+    bola.vy = bola.vy * -1;
+    sonido_rebote.currentTime = 0;
+    sonido_rebote.play();
   }
   //--valores positivos aumentan la velocidad (izqda- derecha)
   //-- valores negativos aumentan la velocidad (derecha- izqda)
 
-  //-- Comprobar si hay colisión con la raqueta izquierda
+  //-- Colisión con las raquetas izquierda y derecha
     if (bola.x >= raqI.x && bola.x <=(raqI.x+ raqI.width) &&
         bola.y >= raqI.y && bola.y <=(raqI.y+ raqI.height)) {
      bola.vx = bola.vx * -1;
+  //-- reproducir sonido
+       sonido_raqueta.currentTime = 0;
+       sonido_raqueta.play();
     }else if (bola.x >= raqD.x && bola.x <=(raqD.x+ raqD.width) &&
        bola.y >= raqD.y && bola.y <=(raqD.y+ raqD.height)) {
     bola.vx = bola.vx * -1;
+  //-- reproducir sonido
+    sonido_raqueta.currentTime = 0;
+    sonido_raqueta.play();
    }
 
 
@@ -126,8 +156,11 @@ window.onkeydown = (e) => {
 
     // Tecla ESPACIO: saque
     case " ":
-    bola.x =  bola.x_ini;
-    bola.vx = bola.vx_ini;
+      bola.init();
+
+      //-- Darle velocidad
+        bola.vx =  bola.vx_ini;
+        bola.vy =  bola.vy_ini;
     default:
   }
 }
