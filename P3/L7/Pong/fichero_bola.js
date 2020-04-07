@@ -17,12 +17,10 @@ class Bola {
    //-- Velocidad inicial de la bola
    this.vx_ini = 6;
    this.vy_ini = 3;
-
    //-- Velocidad genérica de la bola
-   //-- Inicialmente a cero
-   this.vx = 0;
-   this.vy = 0;
-
+  //-- Inicialmente a cero
+    this.vx = 0;
+    this.vy = 0;
 
    //-- Inicializar
    this.init();
@@ -40,8 +38,12 @@ class Bola {
 
   init() {
     //-- Inicializada la bola: A su posición Inicial
+    //-- y Velocidad genérica de la bola
+    //-- Inicialmente a cero
     this.x = this.x_ini;
     this.y = this.y_ini;
+    this.vx = 0;
+    this.vy = 0;
   }
 
   update() {

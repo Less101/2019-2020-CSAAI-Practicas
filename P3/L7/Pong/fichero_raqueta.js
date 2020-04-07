@@ -27,7 +27,6 @@ class Raqueta
     //-- Inicializar la raqueta a su posición original
     init()
     {
-
       this.x = this.x_ini;
       this.y = this.y_ini;
     }
@@ -35,9 +34,7 @@ class Raqueta
     //-- Actualizar la posición de la raqueta
     update()
     {
-      
       this.y += this.v;
-
     }
 
     //-- Dibujar la raqueta
@@ -46,8 +43,6 @@ class Raqueta
        //------- Dibujar las raquetas
        this.ctx.beginPath();
        this.ctx.fillStyle= 'white';
-
-
        this.ctx.rect(this.x, this.y, this.width, this.height);
 
        //---¡Pintar!

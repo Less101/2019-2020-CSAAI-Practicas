@@ -15,22 +15,55 @@ const ctx = canvas.getContext("2d");
 const sonido_raqueta = new Audio("pong-raqueta.mp3");
 const sonido_rebote = new Audio("pong-rebote.mp3");
 const sonido_tanto = new Audio("pong-tanto.mp3");
+const sonido_derrota = new Audio("what.mp3");
+
+var counter_I = 0;
+var counter_D = 0;
+
+//-- Estados del juego
+const ESTADO = {
+  INIT: 0,
+  SAQUE: 1,
+  JUGANDO: 2,
+}
+
+//-- variable de estado
+//-- Arrancamos desde el estado inicial
+let estado = ESTADO.INIT
+
 
 //-- pintar todos los objetos en el canvas
 function draw(){
   // --- Dibujar la bola
-  bola.draw();
+  //-- Sólo en el estado de jugando
+  //-- Dibujar el texto de comenzar
+  if (estado == ESTADO.INIT) {
+    ctx.font = "40px Arial";
+    ctx.fillStyle = "green";
+    ctx.fillText("¡Start pendejo!", 30, 350);
+    bola.draw();
+    console.log("hagan juego");
+      //-- Dibujar el texto de sacar
+  } else if (estado == ESTADO.SAQUE) {
+    ctx.font = "40px Arial";
+    ctx.fillStyle = "yellow";
+    ctx.fillText("¡Saca pendejo!", 30, 350);
+    bola.draw();
+  } else if (estado == ESTADO.JUGANDO) {
+    bola.draw();
+  }
+
+
 
   //-- Dibujar las raquetas Izquierda y Derecha
   raqI.draw();
   raqD.draw();
 
-
 //--------- Dibujar la red
 ctx.beginPath();
 
 //-- Estilo de la linea: discontinua
-//-- Trazos de 10 pixeles, y 10 de separacion
+//-- Trazos de 10 pixeles, y 10 de separación
 ctx.setLineDash([10,10]);
 ctx.strokeStyle = 'white';
 ctx.lineWidth = 2;
@@ -46,8 +79,8 @@ ctx.stroke();
 ctx.font = "100px Arial";
 ctx.fillStyle = "white";
 // -- qué dibujo, x,y
-ctx.fillText("0", 200, 80);
-ctx.fillText("1", 340, 80);
+ctx.fillText(counter_I, 200, 80);
+ctx.fillText(counter_D, 340, 80);
 }
 
 //--- Bucle principal de la animación
@@ -58,28 +91,48 @@ function animacion()
   //-- Actualizar  la raqueta con la velocidad actual
     raqI.update();
     raqD.update();
+
   //-- Comprobar si la bola ha alcanzado el límite derecho
   //-- Si es así, se cambia el signo de la velocidad, para
   //-- que "rebote" y vaya en el sentido opuesto
-  if(bola.x >= canvas.width ) {
+
+  if (bola.x >= canvas.width ) {
     //-- Hay colisión. Cambiar el signo de la bola
     //-- colisión en las paredes verticales
-    bola.vx = bola.vx * -1;
+    //bola.vx = bola.vx * -1;
+    //-- Reproducir sonido
     sonido_tanto.currentTime = 0;
     sonido_tanto.play();
-  }else if (bola.x <= 0.0) {
-    bola.vx = bola.vx * -1;
+    counter_I++;
+    //-- cambia estado
+    estado = ESTADO.SAQUE;
+    bola.init();
+    console.log("¡¡¡Tanto!!!");
+
+   } else if (bola.x <= 0.0) {
+    //bola.vx = bola.vx * -1;
+    //-- Reproducir sonido
     sonido_tanto.currentTime = 0;
     sonido_tanto.play();
+    counter_D++;
+    //-- cambia estado
+    estado = ESTADO.SAQUE;
+    bola.init();
+    console.log("¡¡¡Tanto!!!");
+
+    return;
+
   }
   // colisión en las paredes horizontales
 
-  if(bola.y >= canvas.height) {
+  if (bola.y >= canvas.height) {
     bola.vy = bola.vy * -1;
+    estado = ESTADO.JUGANDO;
     sonido_rebote.currentTime = 0;
     sonido_rebote.play();
-  }else if (bola.y <= 0.0) {
+  } else if (bola.y <= 0.0) {
     bola.vy = bola.vy * -1;
+    estado = ESTADO.JUGANDO;
     sonido_rebote.currentTime = 0;
     sonido_rebote.play();
   }
@@ -93,19 +146,17 @@ function animacion()
   //-- reproducir sonido
        sonido_raqueta.currentTime = 0;
        sonido_raqueta.play();
-    }else if (bola.x >= raqD.x && bola.x <=(raqD.x+ raqD.width) &&
+    } else if (bola.x >= raqD.x && bola.x <=(raqD.x+ raqD.width) &&
        bola.y >= raqD.y && bola.y <=(raqD.y+ raqD.height)) {
     bola.vx = bola.vx * -1;
-  //-- reproducir sonido
-    sonido_raqueta.currentTime = 0;
-    sonido_raqueta.play();
+    //-- reproducir sonido
+         sonido_raqueta.currentTime = 0;
+         sonido_raqueta.play();
    }
-
 
         //-- Actualizar coordenada x de la bola, en funcion de
     //-- su velocidad
     bola.update()
-
 
   //-- Borrar el canvas
   ctx.clearRect(0,0, canvas.width, canvas.height);
@@ -116,12 +167,25 @@ function animacion()
   //-- Mostrar actividad en la consola
   //-- así comprobamos que está vivo
   console.log("Alive!");
+
+
+      if (counter_D || counter_I == 10) {
+        estado = ESTADO.INIT;
+        ctx.font = "40px Arial";
+        ctx.fillStyle = "yellow";
+        ctx.fillText(" YOU WON!", 30, 350);
+        bola.init();
+      }
+
+//--- Arrancar la animación
+  window.requestAnimationFrame(animacion);
 }
+
 
 //-- Inicializa la bola: A su posición Inicial
 const bola = new Bola(ctx);
 
-//-- Cambiar las raquetas
+//-- Crear las raquetas
 const raqI = new Raqueta(ctx);
 const raqD = new Raqueta(ctx);
 
@@ -130,13 +194,19 @@ raqD.x_ini = 540;
 raqI.y_ini = 300;
 raqD.init();
 
+animacion();
 //-- Arrancar la animacion
-setInterval(()=> {
-  animacion();
-}, 16);
+//setInterval(()=> {
+//  animacion();
+//}, 16);
 
 //-- Retrollamadas de las teclas
 window.onkeydown = (e) => {
+
+  //-- En el estado inicial no se
+  //-- hace caso de las teclas
+  if (estado == ESTADO.INIT)
+    return;
 
   switch (e.key) {
 
@@ -147,6 +217,8 @@ window.onkeydown = (e) => {
     case "q":
       raqI.v = raqI.v_ini * -1;
       break;
+
+  // control de la raqueta derecha
     case "p":
       raqD.v = raqD.v_ini * -1;
       break;
@@ -154,13 +226,27 @@ window.onkeydown = (e) => {
       raqD.v = raqD.v_ini;
       break;
 
-    // Tecla ESPACIO: saque
-    case " ":
+    // Tecla s: saque
+    case "s":
       bola.init();
+
+    //-- El saque solo funciona en el estado de SAQUE
+    if (estado == ESTADO.SAQUE) {
+      //-- Reproducir sonido
+        sonido_raqueta.currentTime = 0;
+        sonido_raqueta.play();
+
+      //-- Llevar bola a su posicion incicial
+        bola.init();
 
       //-- Darle velocidad
         bola.vx =  bola.vx_ini;
         bola.vy =  bola.vy_ini;
+      //-- Cambiar  al estado de Jugando
+        estado = ESTADO.JUGANDO;
+
+        return false;
+      }
     default:
   }
 }
@@ -168,12 +254,34 @@ window.onkeyup = (e) =>{
   if (e.key == "a" || e.key == "q"){
     //-- Quitar velocidad de la raqueta izquierda
     raqI.v = 0;
-  }else if(e.key == "l" || e.key == "p")
-   //-- Quitar velocidad de la raqueta derecha
-   raqD.v = 0;{
+  }
 
+  if(e.key == "l" || e.key == "p"){
+   //-- Quitar velocidad de la raqueta derecha
+   raqD.v = 0;
    }
 }
+
+//-- Botón de arranque
+const start = document.getElementById("start");
+
+start.onclick = () => {
+  estado = ESTADO.SAQUE;
+  console.log("¡Saque!");
+  canvas.focus();
+}
+
+//-- Botón de stop
+const stop = document.getElementById("stop");
+
+stop.onclick = () => {
+  //-- Volver al estado inicial
+  estado =ESTADO.INIT;
+  bola.init();
+  start.disabled = false;
+}
+
+
 
 //-- Obtener el boton de dar un "paso"
 //const sacar = document.getElementById("sacar");
