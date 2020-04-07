@@ -44,15 +44,14 @@ function draw(){
     bola.draw();
     console.log("hagan juego");
       //-- Dibujar el texto de sacar
-  } else if (estado == ESTADO.SAQUE) {
+   }else if (estado == ESTADO.SAQUE) {
     ctx.font = "40px Arial";
     ctx.fillStyle = "yellow";
     ctx.fillText("¡Saca pendejo!", 30, 350);
     bola.draw();
-  } else if (estado == ESTADO.JUGANDO) {
+  }else if (estado == ESTADO.JUGANDO){
     bola.draw();
   }
-
 
 
   //-- Dibujar las raquetas Izquierda y Derecha
@@ -79,10 +78,13 @@ ctx.stroke();
 ctx.font = "100px Arial";
 ctx.fillStyle = "white";
 // -- qué dibujo, x,y
+//------ Dibujar el tanteo
+ctx.font = "100px Arial";
+ctx.fillStyle = "white";
 ctx.fillText(counter_I, 200, 80);
 ctx.fillText(counter_D, 340, 80);
-}
 
+}
 //--- Bucle principal de la animación
 function animacion()
 {
@@ -154,7 +156,7 @@ function animacion()
          sonido_raqueta.play();
    }
 
-        //-- Actualizar coordenada x de la bola, en funcion de
+    //-- Actualizar coordenada x de la bola, en funcion de
     //-- su velocidad
     bola.update()
 
@@ -169,16 +171,10 @@ function animacion()
   console.log("Alive!");
 
 
-      if (counter_D || counter_I == 10) {
-        estado = ESTADO.INIT;
-        ctx.font = "40px Arial";
-        ctx.fillStyle = "yellow";
-        ctx.fillText(" YOU WON!", 30, 350);
-        bola.init();
-      }
+
 
 //--- Arrancar la animación
-  window.requestAnimationFrame(animacion);
+//  window.requestAnimationFrame(animacion);
 }
 
 
@@ -194,11 +190,11 @@ raqD.x_ini = 540;
 raqI.y_ini = 300;
 raqD.init();
 
-animacion();
+//animacion();
 //-- Arrancar la animacion
-//setInterval(()=> {
-//  animacion();
-//}, 16);
+setInterval(()=> {
+ animacion();
+}, 16);
 
 //-- Retrollamadas de las teclas
 window.onkeydown = (e) => {
