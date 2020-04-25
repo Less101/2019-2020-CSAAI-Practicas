@@ -55,18 +55,3 @@ ctx.putImageData(imgData, 0, 0);
 };
 
 console.log("Fin...");
-//-- Obtener el número total de elementos en el array
-console.log("Tamaño de data" + data.length);
-
-// El número total de píxeles es la atura por la anchura
-npixels = canvas.width  * canvas.height
-console.log("Anchura (en píxeles):" +  canvas.width);
-console.log("Altura (en píxeles):" +  canvas.height);
-console.log("Píxeles totales: " + npixels);
-
-//-- Puesto que cada pixel ocupa 4 bytes, el array de Píxeles
-//-- tiene un tamaño de  4 * número de Píxeles
-console.log("Total de datos de la imagen:" + npixels);
-};
-
-console.log("Fin...");
