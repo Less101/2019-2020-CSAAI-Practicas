@@ -25,11 +25,16 @@ const ESTADO = {
   INIT: 0,
   SAQUE: 1,
   JUGANDO: 2,
+  WIN: 3,
 }
 
 //-- variable de estado
 //-- Arrancamos desde el estado inicial
+
 let estado = ESTADO.INIT
+var state= [];
+state.push(estado);
+
 
 
 //-- pintar todos los objetos en el canvas
@@ -49,9 +54,24 @@ function draw(){
     ctx.fillStyle = "yellow";
     ctx.fillText("¡Saca pendejo!", 30, 350);
     bola.draw();
+
   }else if (estado == ESTADO.JUGANDO){
-    bola.draw();
+      bola.draw();
   }
+
+  if (counter_I == 10 || counter_D == 10 ) {
+    estado == ESTADO.INIT;
+    state.push(estado);
+    estado == ESTADO.WIN;
+    bola.init();
+    ctx.font = "40px Arial";
+    ctx.fillStyle = "green";
+    ctx.fillText(" You won, DUDE!", 30, 350);
+    sonido_derrota.currentTime = 0;
+    sonido_derrota.play();
+  }
+
+
 
 
   //-- Dibujar las raquetas Izquierda y Derecha
@@ -174,7 +194,7 @@ function animacion()
 
 
 //--- Arrancar la animación
-//  window.requestAnimationFrame(animacion);
+ window.requestAnimationFrame(animacion);
 }
 
 
@@ -190,11 +210,12 @@ raqD.x_ini = 540;
 raqI.y_ini = 300;
 raqD.init();
 
-//animacion();
 //-- Arrancar la animacion
-setInterval(()=> {
- animacion();
-}, 16);
+animacion();
+//-- Arrancar la animacion
+//setInterval(()=> {
+ //animacion();
+//}, 16);
 
 //-- Retrollamadas de las teclas
 window.onkeydown = (e) => {
