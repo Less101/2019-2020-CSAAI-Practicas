@@ -16,7 +16,7 @@ const sonido_raqueta = new Audio("pong-raqueta.mp3");
 const sonido_rebote = new Audio("pong-rebote.mp3");
 const sonido_tanto = new Audio("pong-tanto.mp3");
 const sonido_derrota = new Audio("what.mp3");
-
+const sonido_partida = new Audio("fondo.mp3");
 var counter_I = 0;
 var counter_D = 0;
 
@@ -32,9 +32,6 @@ const ESTADO = {
 //-- Arrancamos desde el estado inicial
 
 let estado = ESTADO.INIT
-var state= [];
-state.push(estado);
-
 
 
 //-- pintar todos los objetos en el canvas
@@ -42,36 +39,27 @@ function draw(){
   // --- Dibujar la bola
   //-- Sólo en el estado de jugando
   //-- Dibujar el texto de comenzar
-  if (estado == ESTADO.INIT) {
+
+  if (estado == ESTADO.JUGANDO){
+     bola.draw();
+  }else if (estado == ESTADO.INIT) {
     ctx.font = "40px Arial";
     ctx.fillStyle = "green";
     ctx.fillText("¡Start pendejo!", 30, 350);
     bola.draw();
     console.log("hagan juego");
-      //-- Dibujar el texto de sacar
-   }else if (estado == ESTADO.SAQUE) {
+  }else  if (estado == ESTADO.SAQUE) {
     ctx.font = "40px Arial";
     ctx.fillStyle = "yellow";
     ctx.fillText("¡Saca pendejo!", 30, 350);
     bola.draw();
-
-  }else if (estado == ESTADO.JUGANDO){
-      bola.draw();
+  } else if(estado == ESTADO.WIN) {
+      if (counter_I == 5 || counter_D == 5) {
+        ctx.font = "40px Arial";
+        ctx.fillStyle = "green";
+        ctx.fillText(" You won, Dude!", 30, 350);
+    }
   }
-
-  if (counter_I == 10 || counter_D == 10 ) {
-    estado == ESTADO.INIT;
-    state.push(estado);
-    estado == ESTADO.WIN;
-    bola.init();
-    ctx.font = "40px Arial";
-    ctx.fillStyle = "green";
-    ctx.fillText(" You won, DUDE!", 30, 350);
-    sonido_derrota.currentTime = 0;
-    sonido_derrota.play();
-  }
-
-
 
 
   //-- Dibujar las raquetas Izquierda y Derecha
@@ -106,8 +94,7 @@ ctx.fillText(counter_D, 340, 80);
 
 }
 //--- Bucle principal de la animación
-function animacion()
-{
+function animacion() {
   //-- Actualizar las posiciones de los objetos móviles
 
   //-- Actualizar  la raqueta con la velocidad actual
@@ -118,46 +105,69 @@ function animacion()
   //-- Si es así, se cambia el signo de la velocidad, para
   //-- que "rebote" y vaya en el sentido opuesto
 
+
   if (bola.x >= canvas.width ) {
     //-- Hay colisión. Cambiar el signo de la bola
     //-- colisión en las paredes verticales
-    //bola.vx = bola.vx * -1;
+     bola.vx = bola.vx * -1;
     //-- Reproducir sonido
-    sonido_tanto.currentTime = 0;
-    sonido_tanto.play();
-    counter_I++;
-    //-- cambia estado
-    estado = ESTADO.SAQUE;
-    bola.init();
-    console.log("¡¡¡Tanto!!!");
-
+    sonido_rebote.currentTime = 0;
+    sonido_rebote.play();
    } else if (bola.x <= 0.0) {
-    //bola.vx = bola.vx * -1;
+     bola.vx = bola.vx * -1;
     //-- Reproducir sonido
-    sonido_tanto.currentTime = 0;
-    sonido_tanto.play();
-    counter_D++;
-    //-- cambia estado
-    estado = ESTADO.SAQUE;
-    bola.init();
-    console.log("¡¡¡Tanto!!!");
+    sonido_rebote.currentTime = 0;
+    sonido_rebote.play();
 
-    return;
-
-  }
-  // colisión en las paredes horizontales
-
-  if (bola.y >= canvas.height) {
+    //return;
+    // colisión en las paredes horizontales
+  }else if (bola.y >= canvas.height) {
     bola.vy = bola.vy * -1;
-    estado = ESTADO.JUGANDO;
     sonido_rebote.currentTime = 0;
     sonido_rebote.play();
   } else if (bola.y <= 0.0) {
     bola.vy = bola.vy * -1;
-    estado = ESTADO.JUGANDO;
     sonido_rebote.currentTime = 0;
     sonido_rebote.play();
   }
+
+  // Gestionar Estados de juego
+  // por separado
+  if (bola.x <= 0.0) {
+    estado = ESTADO.SAQUE;
+    bola.init();
+    console.log("¡¡¡Tanto!!!");
+    counter_D++;
+    sonido_tanto.play();
+    console.log(counter_I);
+    if (counter_D == 5) {
+      //-- cambia estado
+      estado = ESTADO.WIN;
+      sonido_partida.currentTime = 0;
+      sonido_partida.pause();
+      sonido_derrota.currentTime = 0;
+      sonido_derrota.play();
+    }
+  }
+  // Gestionar Estados de juego
+  // por separado
+  if (bola.x >= canvas.width) {
+    estado = ESTADO.SAQUE;
+    bola.init();
+    console.log("¡¡¡Tanto!!!");
+    counter_I++;
+    sonido_tanto.play();
+    console.log(counter_D);
+    if (counter_I == 5) {
+      //-- cambia estado
+      estado = ESTADO.WIN;
+      sonido_partida.currentTime = 0;
+      sonido_partida.pause();
+      sonido_derrota.currentTime = 0;
+      sonido_derrota.play();
+    }
+  }
+
   //--valores positivos aumentan la velocidad (izqda- derecha)
   //-- valores negativos aumentan la velocidad (derecha- izqda)
 
@@ -172,9 +182,15 @@ function animacion()
        bola.y >= raqD.y && bola.y <=(raqD.y+ raqD.height)) {
     bola.vx = bola.vx * -1;
     //-- reproducir sonido
+
          sonido_raqueta.currentTime = 0;
          sonido_raqueta.play();
    }
+
+        if (estado == ESTADO.JUGANDO) {
+          sonido_partida.currenTime = 0;
+          sonido_partida.play();
+        }
 
     //-- Actualizar coordenada x de la bola, en funcion de
     //-- su velocidad
@@ -261,9 +277,13 @@ window.onkeydown = (e) => {
         bola.vy =  bola.vy_ini;
       //-- Cambiar  al estado de Jugando
         estado = ESTADO.JUGANDO;
+         return false;
+   }
 
-        return false;
-      }
+
+
+      //-- Alguien ha ganado
+
     default:
   }
 }
@@ -279,9 +299,9 @@ window.onkeyup = (e) =>{
    }
 }
 
+
 //-- Botón de arranque
 const start = document.getElementById("start");
-
 start.onclick = () => {
   estado = ESTADO.SAQUE;
   console.log("¡Saque!");
@@ -290,34 +310,13 @@ start.onclick = () => {
 
 //-- Botón de stop
 const stop = document.getElementById("stop");
-
 stop.onclick = () => {
   //-- Volver al estado inicial
   estado =ESTADO.INIT;
+  counter_I = 0;
+  counter_D = 0;
   bola.init();
+  sonido_partida.pause();
   start.disabled = false;
+
 }
-
-
-
-//-- Obtener el boton de dar un "paso"
-//const sacar = document.getElementById("sacar");
-//const reset = document.getElementById("reset");
-//--const paso_2 = document.getElementById("paso_2");
-
-//-- Boton de saque:
-//-- Dar a la bola una velocidad inicial
-//-- También restablecemos la posición inicial
-//sacar.onclick = () => {
-  // Asignación de nueva velocidad de la bola
-
-//  bola_vx = 3;
-//  console.log("¡Saque!");
-//}
-
-//reset.onclick = () => {
-  // Asignación de nueva velocidad de la bola
-//  bola_x = 50;
-
-//  console.log("¡Saque!");
-//}
