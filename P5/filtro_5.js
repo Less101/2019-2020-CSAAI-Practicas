@@ -2,15 +2,24 @@ console.log("Ejecutando JS...")
 
 //-- Obtener elentos del DOM
 const canvas = document.getElementById('canvas');
-const img = document.getElementById('imagesrc');
+const img = document.getElementById("imagesrc");
 const ctx = canvas.getContext('2d');
 
 //-- Acceso al deslizador
-const deslizador_R = document.getElementById('deslizador_1');
-
+const deslizador_R = document.getElementById('R');
+const deslizador_G = document.getElementById('G');
+const deslizador_B = document.getElementById('B');
 
 //-- Valor del deslizador
-const range_value = document.getElementById('range_value');
+const value_R = document.getElementById('value_R');
+const value_G = document.getElementById('value_G');
+const range_B = document.getElementById('value_B');
+
+
+//-- Botonera
+const RGB = document.getElementById('RGB');
+const BW = document.getElementById('BW');
+
 
 //-- Función de retrollamada de Imagen cargada
 //-- La imagen no se carga instantánemanete, sino que
@@ -25,40 +34,112 @@ img.onload = function () {
 
   //-- Situar la imagen original en el canvas
   //-- No se han hecho manipulaciones todavía
-  ctx.drawImage(img, 0,0);
+  ctx.drawImage(img, 0, 0);
 
   console.log("Imagen lista...");
 };
+RGB.onclick = () => {
+  console.log("Aplicando filtro RGB");
+  // Control deslizador R
+    //-- Función de retrollamada del deslizador
+    deslizador_R.oninput = () => {
+      //-- Mostrar el nuevo valor del Deslizador
+    value_R.innerHTML = deslizador_R.value
 
-//-- Función de retrollamada del deslizador
-deslizador_R.oninput = () => {
-  //-- Mostrar el nuevo valor del Deslizador
-  range_value.innerHTML = deslizador_R.value;
+    //-- Situar la imagen original en el canvas
+    //-- No se ha hecho manipulaciones todavía
+    ctx.drawImage(img, 0,0);
 
-//-- Situar la imagen original en el canvas
-//-- No se ha hecho manipulaciones todavía
-ctx.drawImage(img, 0,0);
+    //-- Obtener la imagen del canvas en Píxeles
+    let imgDataRed = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
-//-- Obtener la imagen del canvas en Píxeles
-let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    //-- Obtener el array con todos los píxeles
+    let data = imgDataRed.data
 
-//-- Obtener el array con todos los píxeles
-let data = imgData.data
+    //-- Obtener el umbral de rojo del deslizador
+    umbral = deslizador_R.value
 
-//-- Obtener el umbral de rojo del deslizador
-umbral = deslizador_R.value
+        //-- Filtrar la imagen según el nuevo umbral
+        for (var i = 0; i < data.length; i+=4) {
+          if (data[i] > umbral)
+            data[i] = umbral;
+        }
 
-//-- Brillo
-brillo = (3 * r + 4 * g + b)/8
+        //-- Poner la imagen modificada en el canvas
+        ctx.putImageData(imgDataRed, 0, 0);
+    }
 
-//-- Filtrar la imagen según el nuevo umbral
-for (let i = 0; i < data.length; i+=4){
-  if (data[i] > umbral)
-    data[i] = umbral;
+    deslizador_G.oninput = () => {
+      //-- Mostrar el nuevo valor del Deslizador
+    value_G.innerHTML = deslizador_G.value
+
+    //-- Situar la imagen original en el canvas
+    //-- No se ha hecho manipulaciones todavía
+    ctx.drawImage(img, 0,0);
+
+    //-- Obtener la imagen del canvas en Píxeles
+    let imgDataGreen = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+    //-- Obtener el array con todos los píxeles
+    let data = imgDataGreen.data
+
+    //-- Obtener el umbral de rojo del deslizador
+    umbral = deslizador_G.value
+
+        //-- Filtrar la imagen según el nuevo umbral
+        for (var i = 0; i < data.length; i+=4) {
+          if (data[i+1] > umbral)
+            data[i] = umbral;
+        }
+
+        //-- Poner la imagen modificada en el canvas
+        ctx.putImageData(imgDataGreen, 0, 0);
+    }
+
+    deslizador_B.oninput = () => {
+      //-- Mostrar el nuevo valor del Deslizador
+    value_B.innerHTML = deslizador_B.value
+
+    //-- Situar la imagen original en el canvas
+    //-- No se ha hecho manipulaciones todavía
+    ctx.drawImage(img, 0,0);
+
+    //-- Obtener la imagen del canvas en Píxeles
+    let imgDataBlue = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+    //-- Obtener el array con todos los píxeles
+    let data = imgDataBlue.data
+
+    //-- Obtener el umbral de rojo del deslizador
+    umbral = deslizador_B.value
+
+        //-- Filtrar la imagen según el nuevo umbral
+        for (var i = 0; i < data.length; i+=4) {
+          if (data[i+2] > umbral)
+            data[i] = umbral;
+        }
+
+        //-- Poner la imagen modificada en el canvas
+        ctx.putImageData(imgDataBlue, 0, 0);
+    }
 }
+BW.onclick = () => {
+  console.log("Aplicando filtro de grises");
+  let imgDataGrey = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  //-- Obtener el array con todos los píxeles
+  let data = imgDataGrey.data;
+  //-- Filtrar la imagen según el nuevo umbral
+  for (var i = 0; i < data.length; i+=4) {
+    let r = data[i];
+    let g = data[i+1];
+    let b = data[i+2];
+    let brillo = (3*r + 4*g + b)/8;
+    data[i] = data[i+1] = data[i+2] = brillo
+    }
 
-//-- Poner la imagen modificada en el canvas
-ctx.putImageData(imgData, 0, 0);
+ctx.putImageData(imgDataGrey, 0, 0);
+console.log("filtro de grises aplicado");
+
 }
 
 console.log("Fin...");
