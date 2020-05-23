@@ -1,0 +1,17 @@
+body {
+background-image: url(wire.jpg);
+border: solid;
+border-color: orange;
+}
+
+.PLAYER {
+  background-color: lightblue;
+  text-align: center;
+  margin: 25px;
+}
+
+.MAIN {
+  background-color: lightgreen;
+  text-align: center;
+  margin: 0px;
+}
