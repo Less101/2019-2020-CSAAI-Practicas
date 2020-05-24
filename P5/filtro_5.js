@@ -19,6 +19,7 @@ const range_B = document.getElementById('value_B');
 //-- Botonera
 const RGB = document.getElementById('RGB');
 const BW = document.getElementById('BW');
+const INV = document.getElementById('INV');
 
 
 //-- Función de retrollamada de Imagen cargada
@@ -139,7 +140,25 @@ BW.onclick = () => {
 
 ctx.putImageData(imgDataGrey, 0, 0);
 console.log("filtro de grises aplicado");
+ }
 
-}
+
+INV.onclick = () => {
+  console.log("Aplicando filtro inversor");
+  let imgDataInv = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+    let data = imgDataInv.data;
+
+  for (var i = 0; i < data.length; i+=4 ) {
+      let r = data[ i ];
+      let g = data[ i + 1 ];
+      let b = data[ i + 2 ];
+      let inv = (255 - r + 255 - g + 255 - b);
+      data[ i ] = data[ i + 1 ] = data[ i + 2 ] = inv;
+      }
+
+ctx.putImageData(imgDataInv, 0, 0 );
+console.log("filtro inversor aplicado");
+ }
 
 console.log("Fin...");
