@@ -4,14 +4,14 @@ border: solid;
 border-color: orange;
 }
 
-.PLAYER {
-  background-color: lightblue;
+.MAIN {
+  background-color: green;
   text-align: center;
-  margin: 25px;
+  margin: 0px;
 }
 
-.MAIN {
-  background-color: lightgreen;
+.PLAYER {
+  background-color: blue;
   text-align: center;
   margin: 0px;
 }
