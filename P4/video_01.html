@@ -4,19 +4,41 @@
     <meta charset="utf-8">
     <title>VIDEO 01</title>
     <script src = "video_01.js" defer></script>
-  </head>
+    <link rel="stylesheet" href="video_01.css">
+
+    </head>
   <body>
-    <p>prueba de vídeo</p>
-    <video loop id = "video0"></video>
-    <video loop id = "video1"></video>
-    <video loop id = "video2"></video>
-    <video loop id = "video3"></video>
-    <br>
-    <button id = "play">¡Ver!</button>
-    <button id = "stop">¡Parar!</button>
-    <button id = "play">¡Ver!</button>
-    <button id = "stop">¡Parar!</button>
-    <button id = "play">¡Ver!</button>
-    <button id = "stop">¡Parar!</button>
-  </body>
+
+    <div class="MAIN" align=center>
+        <p>PRINCIPAL</p>
+      <video id="video0" autoplay loop muted ></video>
+      <br>
+    </div>
+<span>
+    <div class="PLAYER">
+        <p>PLAYER1</p>
+      <video id="video1" autoplay loop muted></video>
+      <br>
+      <button id="selector1">PLAY</button>
+      <br>
+    </div>
+
+    <div class="PLAYER">
+        <p>PLAYER2</p>
+      <video id="video2" autoplay loop muted></video>
+      <br>
+      <button id="selector2">PLAY</button>
+      <br>
+    </div>
+
+    <div class="PLAYER">
+        <p>PLAYER3</p>
+      <video id="video3" autoplay loop muted></video>
+      <br>
+      <button id="selector3">PLAY</button>
+      <br>
+    </div>
+  </span>
+
+  <body>
 </html>

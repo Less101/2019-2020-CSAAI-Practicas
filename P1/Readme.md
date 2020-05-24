@@ -1,2 +1,3 @@
 # Práctica 1: CV
-hola
+Además de los ejemplos realizados en clase. En esta práctica, creo que como mejoras tendría:
+foto en el currículumm,  foto de fondo (background) del currículumm...

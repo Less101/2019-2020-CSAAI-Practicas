@@ -16,7 +16,7 @@ const sonido_raqueta = new Audio("pong-raqueta.mp3");
 const sonido_rebote = new Audio("pong-rebote.mp3");
 const sonido_tanto = new Audio("pong-tanto.mp3");
 const sonido_derrota = new Audio("what.mp3");
-const sonido_partida = new Audio("fondo.mp3");
+const sonido_partida = new Audio("hello-meow.mp3");
 var counter_I = 0;
 var counter_D = 0;
 
@@ -57,7 +57,7 @@ function draw(){
       if (counter_I == 5 || counter_D == 5) {
         ctx.font = "40px Arial";
         ctx.fillStyle = "green";
-        ctx.fillText(" You won, Dude!", 30, 350);
+        ctx.fillText(" You won, Dude!, Pulsa Stop", 30, 350);
     }
   }
 
